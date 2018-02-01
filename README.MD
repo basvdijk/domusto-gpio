@@ -1,4 +1,129 @@
-sudo apt-get install wiringpi
+# DOMUSTO marantz plugin
+
+```
+plugin:       Marantz
+author:       Bas van Dijk
+category:     system
+version:      0.0.1
+website:      http://domusto.com
+description:  Control the GPIO ports of a RPI
+```
+
+## Hardware needed
+- Raspberry Pi
+
+## Tested with
+- Raspberry Pi
+
+## Troubleshooting
+
+You might run into the following error:
+```
+GPIO Error: pigpio error -1 in gpioInitialise
+```
+
+This could mean DOMUSTO server has insufficient rights to access the GPIO ports on your RPI. In this case you have to run DOMUSTO server with root access.
+
+```
+sudo npm run dev
+```
+
+## Pre-installation requirement
+
+**Install the pigpio C library**
+
+The pigpio Node.js package requires the pigpio C library V41 or higher.
+
+Raspbian Jessie 2016-05-10 or newer comes with the pigpio C library
+pre-installed so it need not be manually installed.
+
+Raspbian Jessie Lite 2016-05-10 or newer does not come with the pigpio C
+library pre-installed so it must be manually installed with the following
+commands:
+
+```
+sudo apt-get update
+sudo apt-get install pigpio
+```
+
+The pigpio C library contains a number of utilities. One of these utilities
+is pigpiod which launches the pigpio C library as a daemon. This utility
+should not be used as the pigpio Node.js package uses the C library directly.
+
+Installation instructions for the pigpio C library on versions of Raspbian
+prior to 2016-05-10 can be found
+[here](http://abyz.co.uk/rpi/pigpio/download.html).
+
+Source: https://github.com/fivdi/pigpio/blob/master/README.md
+
+## Installation
+
+Execute in the domusto-server folder:
+```sh
+$ ./domusto.js plugin add basvdijk/domusto-gpio
+```
+
+## Configuration
+
+1. Add the section below to your `config.ts`
+2. Set the correct ip address of your Marantz device
+3. Restart DOMUSTO
+
+```js
+{
+    id: 'GPIO',
+    enabled: true,
+    settings: {
+        pins: [
+            {
+                pinNumber: 24,
+                type: 'output',
+            },
+            {
+                pinNumber: 18,
+                type: 'input/NO',
+                resistor: 'pullUp'
+            }
+        ]
+    }
+},
+```
+
+## Example devices
+```js
+
+// GPIO18
+{
+    id: 'RPIPIN18',
+    enabled: true,
+    role: 'output',
+    name: 'IN 18',
+    type: 'switch',
+    subType: 'on/off',
+    plugin: {
+        id: 'GPIO',
+        deviceId: 'GPIO18'
+    }
+},
+
+// GPIO24
+{
+    id: 'RPIPIN24',
+    enabled: true,
+    role: 'output',
+    name: 'OUT 24',
+    type: 'switch',
+    subType: 'on/off',
+    plugin: {
+        id: 'GPIO',
+        deviceId: 'GPIO24',
+    },
+}
+```
+
+![Example configuration](doc/example-configuration.png)
+
+## Reading the GPIO pin status from terminal
 
 ```bash
 $ sudo apt-get install wiringpi
@@ -32,42 +157,8 @@ $ gpio readall
  +-----+-----+---------+------+---+---Pi 3---+---+------+---------+-----+-----+
 ```
 
-from https://github.com/fivdi/pigpio/blob/master/README.md
 
 
-#### Step 1 - Install the pigpio C library
 
-The pigpio Node.js package requires the pigpio C library V41 or higher.
 
-Raspbian Jessie 2016-05-10 or newer comes with the pigpio C library
-pre-installed so it need not be manually installed.
 
-Raspbian Jessie Lite 2016-05-10 or newer does not come with the pigpio C
-library pre-installed so it must be manually installed with the following
-commands:
-
-```
-sudo apt-get update
-sudo apt-get install pigpio
-```
-
-The pigpio C library contains a number of utilities. One of these utilities
-is pigpiod which launches the pigpio C library as a daemon. This utility
-should not be used as the pigpio Node.js package uses the C library directly.
-
-Installation instructions for the pigpio C library on versions of Raspbian
-prior to 2016-05-10 can be found
-[here](http://abyz.co.uk/rpi/pigpio/download.html).
-
-# Troubleshooting
-
-You might run into the following error:
-```
-GPIO Error: pigpio error -1 in gpioInitialise
-```
-
-This could mean DOMUSTO server has insufficient rights to access the GPIO ports on your RPI. In this case you have to run DOMUSTO server with root access.
-
-```
-sudo npm run dev
-```
