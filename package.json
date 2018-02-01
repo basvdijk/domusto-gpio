@@ -1,0 +1,26 @@
+{
+  "name": "domusto-gpio",
+  "version": "0.0.1",
+  "description": "Domusto Home Automation plugin to control RPI GPIO pins",
+  "main": "index.js",
+  "dependencies": {
+    "pigpio": "^0.6.4"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/basvdijk/domusto-gpio.git"
+  },
+  "keywords": [
+    "domusto"
+  ],
+  "author": "Bas van Dijk",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/basvdijk/domusto-gpio/issues"
+  },
+  "homepage": "https://github.com/basvdijk/domusto-gpio#readme"
+}
