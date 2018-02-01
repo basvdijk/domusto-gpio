@@ -1,7 +1,7 @@
-# DOMUSTO marantz plugin
+# DOMUSTO GPIO plugin
 
 ```
-plugin:       Marantz
+plugin:       RPI GPIO
 author:       Bas van Dijk
 category:     system
 version:      0.0.1
