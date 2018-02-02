@@ -8,9 +8,6 @@ import { Domusto } from '../../domusto/DomustoTypes';
 import DomustoSignalHub from '../../domusto/DomustoSignalHub';
 import DomustoDevicesManager from '../../domusto/DomustoDevicesManager';
 
-// PLUGIN SPECIFIC
-// import * as Gpio from 'pigpio';
-
 let Gpio = require('pigpio').Gpio;
 
 /**
@@ -25,9 +22,6 @@ class DomustoGPIO extends DomustoPlugin {
 
     private inputPinsInstances = [];
     private outputPinsInstances = [];
-
-    private GPIO_HIGH = 1;
-    private GPIO_LOW = 0;
 
     /**
      * Creates an instance of DomustoGPIO.
@@ -65,10 +59,9 @@ class DomustoGPIO extends DomustoPlugin {
 
                 input.on('interrupt', pinState => {
 
-                    // this.broadcastPinState(pin.pinNumber, pinState, pinType, 'interrupt');
-
                     let deviceId = 'GPIO' + pin.pinNumber;
 
+                    // Get all devices including devices with trigger
                     const devices = DomustoDevicesManager.getDevicesByDeviceId(deviceId);
 
                     for (let device of devices) {
@@ -114,7 +107,12 @@ class DomustoGPIO extends DomustoPlugin {
 
     }
 
-
+    /**
+     * Fired when a signal is send to the plugin
+     *
+     * @param {Domusto.Signal} signal
+     * @memberof DomustoGPIO
+     */
     onSignalReceivedForPlugin(signal: Domusto.Signal) {
 
         for (let outputPin of this.outputPinsInstances) {
@@ -136,6 +134,11 @@ class DomustoGPIO extends DomustoPlugin {
 
     }
 
+    /**
+     * Read all input pins and broadcast their state
+     *
+     * @memberof DomustoGPIO
+     */
     refreshPinsStatus() {
 
         for (let inputPin of this.inputPinsInstances) {
@@ -148,6 +151,15 @@ class DomustoGPIO extends DomustoPlugin {
 
     }
 
+    /**
+     * Broadcasts the state of a pin
+     *
+     * @param {any} pinNumber
+     * @param {any} pinState
+     * @param {any} pinType
+     * @param {any} readEventType
+     * @memberof DomustoGPIO
+     */
     broadcastPinState(pinNumber, pinState, pinType, readEventType) {
 
         this.console.debug(`GPIO ${pinNumber} (${pinType}) -> ${readEventType}:`, pinState);
@@ -161,7 +173,6 @@ class DomustoGPIO extends DomustoPlugin {
         });
 
     }
-
 
 }
 
