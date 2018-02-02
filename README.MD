@@ -66,7 +66,7 @@ $ ./domusto.js plugin add basvdijk/domusto-gpio
 ## Configuration
 
 1. Add the section below to your `config.ts`
-2. Set the correct ip address of your Marantz device
+2. Set the desired pin configuration
 3. Restart DOMUSTO
 
 ```js
