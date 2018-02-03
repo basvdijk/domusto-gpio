@@ -9,6 +9,13 @@ website:      http://domusto.com
 description:  Control the GPIO ports of a RPI
 ```
 
+## Features
+- [x] Write GPIO pin high/low
+- [x] Read GPIO pin high/low
+- [x] Set pullup / pulldown resistor on GPIO pin
+- [ ] Write/read analog signal
+- [ ] Write/read PWM signal
+
 ## Hardware needed
 - Raspberry Pi
 
